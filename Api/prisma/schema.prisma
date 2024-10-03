@@ -12,3 +12,26 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Professor{
+  id Int @id @default(autoincrement())
+  nome String @db.VarChar(255)
+  email String @db.VarChar(255) @unique
+  senha String @db.VarChar(255)
+  turmas Turma[]
+}
+
+model Turma{
+  id Int @id @default(autoincrement())
+  nome String @db.VarChar(255)
+  professorId Int
+  professor Professor @relation(fields: [professorId], references: [id])
+  atividades Atividade[]
+}
+
+model Atividade{
+  id Int @id @default(autoincrement())
+  descricao String @db.VarChar(255)
+  turmaId Int
+  turma Turma @relation(fields: [turmaId], references: [id])
+}
